@@ -1,13 +1,14 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Typography, Box } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import { FormattedMessage } from "react-intl";
 import { useAuthContext } from "../../contexts/AuthContext";
+import authButtonData from "./authButtonData";
 
 const AuthButton = () => {
   const history = useHistory();
   const { user, signin } = useAuthContext();
-
   const onLoginButtonClick = () => {
     signin(() => {
       history.push("/profile");
@@ -16,24 +17,39 @@ const AuthButton = () => {
 
   return user.isAuthenticated ? (
     <>
-      <p>Welcome! </p>
+      <Typography variant="subtitle1">
+        <FormattedMessage
+          id={authButtonData.welcome.id}
+          defaultMessage={authButtonData.welcome.defaultMessage}
+        />
+        !
+      </Typography>
     </>
   ) : (
     <>
-      <p>You are not logged in.</p>
-      <div data-test="auth-display">
+      <Typography variant="subtitle1">
+        <FormattedMessage
+          id={authButtonData.notLoggedIn.id}
+          defaultMessage={authButtonData.notLoggedIn.defaultMessage}
+        />
+        .
+      </Typography>
+      <Box data-test="auth-display">
         <Button
           id="auth-button"
           size="small"
           variant="contained"
-          color="primary"
+          color="secondary"
           data-test="auth-button"
           startIcon={<GitHubIcon />}
           onClick={onLoginButtonClick}
         >
-          Login with Github
+          <FormattedMessage
+            id={authButtonData.loginWithGithub.id}
+            defaultMessage={authButtonData.loginWithGithub.defaultMessage}
+          />
         </Button>
-      </div>
+      </Box>
     </>
   );
 };
