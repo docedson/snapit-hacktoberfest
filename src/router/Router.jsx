@@ -8,8 +8,12 @@ import Profile from "../pages/Profile";
 import FAQ from "../pages/FAQ";
 import PrivateRoute from "./PrivateRoute";
 import Login from "../pages/Login";
+import Contributor from "../pages/Contributor";
+import Registration from "../pages/Registration";
+import Downloads from "../pages/Downloads/Downloads";
 import { AuthContextProvider } from "../contexts/AuthContext";
 import NotFound from "../pages/NotFound";
+import Projects from "../pages/Projects/Projects";
 
 const Router = () => (
   <AuthContextProvider>
@@ -20,8 +24,12 @@ const Router = () => (
           <Route path="/" exact component={Home} />
           <Route path="/information" component={Information} />
           <Route path="/faq" component={FAQ} />
+          <Route path="/projects" component={Projects} />
           <Route path="/login" component={Login} />
           <PrivateRoute path="/profile" component={Profile} />
+          <Route path="/contributor" component={Contributor} />
+          <Route path="/registration" component={Registration} />
+          <Route path="/downloads" component={Downloads} />
           <Route component={NotFound} />
         </Switch>
       </Grid>

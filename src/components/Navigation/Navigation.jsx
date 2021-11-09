@@ -1,15 +1,8 @@
 import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link as RouterLink } from "react-router-dom";
-import { useIntl } from "react-intl";
-import {
-  Menu,
-  Home,
-  Login,
-  Help,
-  ImportContacts,
-  Person,
-} from "@mui/icons-material";
+import { FormattedMessage } from "react-intl";
+import { Menu } from "@mui/icons-material";
 import {
   AppBar,
   Box,
@@ -23,40 +16,11 @@ import {
   ListItemIcon,
   Toolbar,
 } from "@mui/material";
+import navigationData from "./navigationData";
 import logo from "../../assets/SnapIT-logo.svg";
 import AvatarMenu from "../AvatarMenu";
 
 const Navigation = () => {
-  const intl = useIntl();
-
-  const links = [
-    {
-      icon: <Home />,
-      name: intl.formatMessage({ id: "Home-nav" }),
-      endpoint: "/",
-    },
-    {
-      icon: <ImportContacts />,
-      name: intl.formatMessage({ id: "Information-nav" }),
-      endpoint: "/information",
-    },
-    {
-      icon: <Help />,
-      name: intl.formatMessage({ id: "FAQ-nav" }),
-      endpoint: "/faq",
-    },
-    {
-      icon: <Login />,
-      name: intl.formatMessage({ id: "Login-nav" }),
-      endpoint: "/login",
-    },
-    {
-      icon: <Person />,
-      name: intl.formatMessage({ id: "Profile-nav" }),
-      endpoint: "/profile",
-    },
-  ];
-
   const [menu, setMenu] = useState({
     top: false,
     left: false,
@@ -78,24 +42,29 @@ const Navigation = () => {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: 175 }}
+      sx={{ width: 200 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List data-test="list-display">
-        {links.map(({ icon, name, endpoint }) => (
+        {navigationData.map(({ icon, name }) => (
           <Link
             component={RouterLink}
-            to={endpoint}
+            to={name.endpoint}
             underline="none"
-            key={`list-item-${name}`}
+            key={`list-item-${name.id}`}
           >
             <ListItem button>
               <ListItemIcon sx={{ color: "secondary.main" }}>
                 {icon}
               </ListItemIcon>
-              <ListItemText primary={name} />
+              <ListItemText>
+                <FormattedMessage
+                  id={name.id}
+                  defaultMessage={name.defaultMessage}
+                />
+              </ListItemText>
             </ListItem>
           </Link>
         ))}
@@ -134,7 +103,9 @@ const Navigation = () => {
                   </IconButton>
                 </Grid>
                 <Grid mt={1}>
-                  <img src={logo} alt="SnapIt Logo" />
+                  <a href="https://snapit.solutions/">
+                    <img src={logo} alt="SnapIt Logo" />
+                  </a>
                 </Grid>
               </Grid>
             </Toolbar>
